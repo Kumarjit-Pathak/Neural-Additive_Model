@@ -1,0 +1,57 @@
+# Agent 5: Business Tools Configuration
+
+agent:
+  id: "05"
+  name: "Business Tools Developer"
+  description: "Budget optimization, ROI simulation, scenario planning"
+
+  # Environment
+  environment:
+    venv: ".venv_agent_05"
+    requirements: "requirements/agent_05_business.txt"
+    requirements_lock: "requirements/agent_05_business.lock"
+
+  # Outputs
+  outputs:
+    optimization_results: "outputs/optimization/"
+    scenarios: "outputs/scenarios/"
+    roi_curves: "outputs/figures/roi/"
+
+  # Budget optimization
+  budget_optimization:
+    channels:
+      - TV
+      - Digital
+      - SEM
+      - Radio
+      - Sponsorship
+
+    constraints:
+      min_channel_pct: 0.10  # Minimum 10% per channel
+      max_channel_pct: 0.50  # Maximum 50% per channel
+
+    optimization:
+      method: "SLSQP"
+      max_iterations: 1000
+
+  # ROI simulation
+  roi_simulation:
+    spend_range:
+      min: 0
+      max: 200000000  # 200M
+      steps: 100
+
+    channels:
+      - TV
+      - Digital
+      - SEM
+
+  # Scenario planning
+  scenarios:
+    predefined:
+      - aggressive_digital
+      - price_reduction
+      - premium_positioning
+      - festival_push
+
+    custom: true

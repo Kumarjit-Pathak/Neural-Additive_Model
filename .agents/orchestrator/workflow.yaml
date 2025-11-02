@@ -1,0 +1,102 @@
+# Orchestrator Workflow Configuration
+# Defines phases, agents, and dependencies for NAM project
+
+workflow:
+  phases:
+    - name: setup
+      description: "Initial setup and framework preparation"
+      parallel: true
+      agents:
+        - data: setup_pipeline
+        - model: design_architecture
+        - testing: setup_framework
+
+    - name: data_processing
+      description: "Data loading, cleaning, and feature engineering"
+      parallel: false
+      agents:
+        - data: process_all_data
+
+    - name: implementation
+      description: "Model implementation and training infrastructure"
+      parallel: true
+      agents:
+        - model: implement_keras_constraints
+        - training: setup_training
+        - testing: write_unit_tests
+
+    - name: baseline_training
+      description: "Train baseline models for comparison"
+      parallel: false
+      agents:
+        - training: train_baseline_models
+
+    - name: nam_training
+      description: "Train Neural Additive Model"
+      parallel: false
+      agents:
+        - training: train_nam_model
+
+    - name: walk_forward_validation
+      description: "Walk-forward optimization validation"
+      parallel: false
+      agents:
+        - training: execute_walk_forward
+
+    - name: evaluation
+      description: "Model evaluation and diagnostics"
+      parallel: true
+      agents:
+        - evaluation: evaluate_models
+        - evaluation: generate_visualizations
+        - testing: integration_tests
+
+    - name: business_tools
+      description: "Business optimization tools"
+      parallel: true
+      agents:
+        - business: budget_optimizer
+        - business: scenario_planner
+        - business: roi_simulator
+
+    - name: finalization
+      description: "Final validation and reporting"
+      parallel: false
+      agents:
+        - evaluation: generate_final_report
+        - testing: final_validation
+
+# Agent dependencies
+dependencies:
+  model: [data]
+  training: [data, model]
+  evaluation: [training]
+  business: [training, evaluation]
+  testing: []  # Can run anytime
+
+# Synchronization points
+sync_points:
+  - name: "Data Ready"
+    week: 2
+    prerequisite: "data.process_all_data"
+    unblocks: ["training", "evaluation"]
+
+  - name: "Model Architecture Complete"
+    week: 3
+    prerequisite: "model.implement_keras_constraints"
+    unblocks: ["training.train_nam_model"]
+
+  - name: "Training Complete"
+    week: 4
+    prerequisite: "training.execute_walk_forward"
+    unblocks: ["evaluation", "business"]
+
+  - name: "Evaluation Complete"
+    week: 6
+    prerequisite: "evaluation.evaluate_models"
+    unblocks: ["business"]
+
+  - name: "Ready for Review"
+    week: 7
+    prerequisite: "All agents complete"
+    decision: "User reviews results before deployment"

@@ -1,0 +1,51 @@
+# Agent 4: Evaluation Engineer Configuration
+
+agent:
+  id: "04"
+  name: "Evaluation Engineer"
+  description: "Model evaluation, visualization, and diagnostics"
+
+  # Environment
+  environment:
+    venv: ".venv_agent_04"
+    requirements: "requirements/agent_04_evaluation.txt"
+    requirements_lock: "requirements/agent_04_evaluation.lock"
+
+  # Outputs
+  outputs:
+    figures: "outputs/figures/"
+    reports: "outputs/reports/"
+    metrics: "outputs/metrics/"
+
+  # Evaluation metrics
+  metrics:
+    regression:
+      - r2_score
+      - mean_absolute_percentage_error
+      - root_mean_squared_error
+      - mean_absolute_error
+
+    business:
+      - elasticities
+      - roi_by_channel
+      - incremental_contribution
+
+  # Visualization
+  visualization:
+    feature_response_curves: true
+    hierarchical_plots: true
+    walk_forward_results: true
+    residual_analysis: true
+    actual_vs_predicted: true
+    marketing_decomposition: true
+
+    # Plot settings
+    dpi: 300
+    style: "seaborn-v0_8-darkgrid"
+    figure_format: "png"
+
+  # Reporting
+  reporting:
+    generate_html: true
+    generate_pdf: false
+    executive_summary: true

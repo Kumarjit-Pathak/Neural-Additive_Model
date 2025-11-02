@@ -1,0 +1,50 @@
+# Agent 6: Test Automation Configuration
+
+agent:
+  id: "06"
+  name: "Test Automation"
+  description: "Continuous testing - unit, integration, and property tests"
+
+  # Environment
+  environment:
+    venv: ".venv_agent_06"
+    requirements: "requirements/agent_06_testing.txt"
+    requirements_lock: "requirements/agent_06_testing.lock"
+
+  # Test configuration
+  testing:
+    # Coverage
+    coverage:
+      target: 95  # percent
+      report_format: "html"
+      output_dir: "tests/coverage/"
+
+    # Test types
+    unit_tests:
+      enabled: true
+      path: "tests/unit/"
+      parallel: true
+
+    integration_tests:
+      enabled: true
+      path: "tests/integration/"
+      parallel: false
+
+    property_tests:
+      enabled: true
+      framework: "hypothesis"
+      max_examples: 100
+
+  # Continuous testing
+  continuous:
+    watch_mode: false
+    run_on_save: false
+
+  # Test markers
+  markers:
+    - slow
+    - integration
+    - unit
+    - property
+    - keras
+    - constraint

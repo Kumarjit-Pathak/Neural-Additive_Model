@@ -1,0 +1,41 @@
+# Agent 1: Data Engineer Configuration
+
+agent:
+  id: "01"
+  name: "Data Engineer"
+  description: "Handles data loading, preprocessing, feature engineering"
+
+  # Environment
+  environment:
+    venv: ".venv_agent_01"
+    requirements: "requirements/agent_01_data.txt"
+    requirements_lock: "requirements/agent_01_data.lock"
+
+  # Outputs
+  outputs:
+    processed_data: "data/processed/"
+    features: "data/features/"
+    splits: "data/splits/"
+    documentation: "docs/data_dictionary.md"
+
+  # Configuration
+  data_config:
+    raw_data_path: "data/raw/"
+    train_ratio: 0.70
+    val_ratio: 0.15
+    test_ratio: 0.15
+
+  # Feature engineering
+  features:
+    adstock:
+      enabled: true
+      decay_rate: 0.7
+      max_lag: 3
+
+    temporal:
+      enabled: true
+      cyclical_encoding: true
+
+    price:
+      enabled: true
+      create_indices: true

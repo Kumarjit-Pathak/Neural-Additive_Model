@@ -1,0 +1,48 @@
+# Agent 2: Model Architect Configuration
+
+agent:
+  id: "02"
+  name: "Model Architect"
+  description: "Designs and implements NAM architecture with Keras 3"
+
+  # Environment
+  environment:
+    venv: ".venv_agent_02"
+    requirements: "requirements/agent_02_model.txt"
+    requirements_lock: "requirements/agent_02_model.lock"
+    keras_backend: "jax"  # Options: jax, tensorflow, torch
+
+  # Outputs
+  outputs:
+    models: "src/models/"
+    baselines: "src/models/baseline_models.py"
+    documentation: "docs/model_architecture.md"
+
+  # Model configuration
+  model_config:
+    # Constrained layers
+    constraints:
+      own_price:
+        type: "monotonic_negative"
+        hidden_dims: [64, 32]
+        dropout: 0.1
+
+      cross_price:
+        type: "monotonic_positive"
+        hidden_dims: [64, 32]
+        dropout: 0.1
+
+      investment:
+        type: "parametric_beta_gamma"
+        init_alpha: 0.5
+        init_beta: 0.1
+
+      nps:
+        type: "unconstrained"
+        hidden_dims: [64, 32]
+
+    # Hierarchical structure
+    hierarchical:
+      enabled: true
+      brand_ids: ["Camera", "Gaming", "Entertainment"]
+      hier_weight: 0.7

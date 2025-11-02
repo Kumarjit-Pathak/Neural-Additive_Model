@@ -1,0 +1,67 @@
+# Agent 3: Training Specialist Configuration
+
+agent:
+  id: "03"
+  name: "Training Specialist"
+  description: "Handles model training, walk-forward validation, hyperparameter tuning"
+
+  # Environment
+  environment:
+    venv: ".venv_agent_03"
+    requirements: "requirements/agent_03_training.txt"
+    requirements_lock: "requirements/agent_03_training.lock"
+
+  # Outputs
+  outputs:
+    models: "outputs/models/"
+    logs: "outputs/logs/"
+    experiments: "experiments/mlruns/"
+
+  # Training configuration
+  training:
+    # Optimization
+    optimizer: "adam"
+    learning_rate: 0.001
+    weight_decay: 0.00001
+
+    # Training duration
+    max_epochs: 200
+    batch_size: 32
+    shuffle: false  # Time series data
+
+    # Callbacks
+    early_stopping:
+      patience: 15
+      min_delta: 0.001
+      monitor: "val_loss"
+
+    model_checkpoint:
+      save_best_only: true
+      monitor: "val_loss"
+
+    reduce_lr:
+      patience: 5
+      factor: 0.5
+      min_lr: 0.000001
+
+  # Loss weights
+  loss_weights:
+    lambda_fit: 1.0
+    lambda_constraint: 0.5
+    lambda_hierarchical: 0.3
+    lambda_smooth: 0.1
+
+  # Walk-forward validation
+  walk_forward:
+    enabled: true
+    initial_train_size: 6  # months
+    test_size: 1  # month
+    step_size: 1  # month
+    window_type: "expanding"
+
+  # Hyperparameter tuning
+  hyperparameter_tuning:
+    enabled: true
+    framework: "optuna"  # or "keras_tuner"
+    n_trials: 50
+    timeout: 7200  # seconds

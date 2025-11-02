@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(source .venv_main/Scripts/activate)",
+      "Bash(python main.py:*)",
+      "Bash(python -c:*)",
+      "Bash(python check_model_architecture.py:*)",
+      "Bash(python verify_architecture.py:*)",
+      "Bash(python scripts/check_agent_status.py:*)",
+      "Bash(python scripts/plot_training_results.py:*)",
+      "Bash(python scripts/plot_walk_forward.py:*)",
+      "Bash(cat:*)",
+      "Bash(timeout 120 python:*)",
+      "Bash(python main_daily.py:*)",
+      "Bash(tee:*)",
+      "Bash(python scripts/plot_elasticity.py:*)",
+      "Bash(pip install:*)",
+      "Bash(python -m src.visualization.interactive_dashboard:*)",
+      "Bash(python generate_interactive_viz.py:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
